@@ -44,4 +44,11 @@ router.delete('/:id', function(req, res, next) {
   });
 });
 
+router.post('/:id', function(req, res, next) {
+  Diary.update({_id: req.params.id}, {$push: {"entries": {text: req.body.entry}}} , function (err, post) {
+    if (err) return next(err);
+    res.json(post);
+  });
+});
+
 module.exports = router;

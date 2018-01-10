@@ -20,11 +20,9 @@ mongoose.connect('mongodb://localhost:27017/diary')
   .catch((err) => console.error(err));
 
 let index = require('./routes/index');
-let users = require('./routes/users');
 let diarys = require('./routes/diary');
 
 app.use('/', index);
-app.use('/users', users);
 app.use('/diarys', diarys);
 
 // catch 404 and forward to error handler
