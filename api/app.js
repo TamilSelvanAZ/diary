@@ -1,33 +1,27 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const  express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+let mongoose = require('mongoose');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
-var diarys = require('./routes/diary');
-var mongoose = require('mongoose');
-var app = express();
+let app = express();
+
+app.use(logger('dev'));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect('mongodb://localhost:27017/admin')
+mongoose.connect('mongodb://localhost:27017/diary')
   .then(() =>  console.log('connection successful'))
   .catch((err) => console.error(err));
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+let index = require('./routes/index');
+let users = require('./routes/users');
+let diarys = require('./routes/diary');
 
 app.use('/', index);
 app.use('/users', users);
@@ -48,7 +42,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  // res.render('error');
 });
 
 

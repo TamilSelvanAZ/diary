@@ -1,7 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var mongoose = require('mongoose');
-var Diary = require('../models/diary.js');
+const express = require('express');
+const router = express.Router();
+const mongoose = require('mongoose');
+const Diary = require('../models/diary.js');
 
 /* GET ALL DiaryS */
 router.get('/', function(req, res, next) {
@@ -21,6 +21,7 @@ router.get('/:id', function(req, res, next) {
 
 /* SAVE Diary */
 router.post('/', function(req, res, next) {
+  console.log(req.body);
   Diary.create(req.body, function (err, post) {
     if (err) return next(err);
     res.json(post);
