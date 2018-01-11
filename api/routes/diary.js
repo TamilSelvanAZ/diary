@@ -44,6 +44,7 @@ router.delete('/:id', function(req, res, next) {
   });
 });
 
+/* SAVE Diary Entries*/
 router.post('/:id', function(req, res, next) {
   Diary.update({_id: req.params.id}, {$push: {"entries": {text: req.body.entry}}} , function (err, post) {
     if (err) return next(err);
