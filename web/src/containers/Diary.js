@@ -12,7 +12,7 @@ const host = 'http://localhost:5000'
 class Diary extends Component {
   constructor(props) {
     super(props)
-
+//set states
     this.state = {
       myDiaries: [],
 
@@ -36,6 +36,7 @@ class Diary extends Component {
     this.getMyDiaries()
   }
 
+  //get initial call for diarys list all
   getMyDiaries = () => {
     axios.get(host + '/diarys')
       .then((response) => {
@@ -48,7 +49,7 @@ class Diary extends Component {
       });
   };
 
-
+  //get diary value from form
   onChangeDiary = (event) => {
     let diary = this.state.diary
     diary[event.target.name] = event.target.value
@@ -58,6 +59,7 @@ class Diary extends Component {
     })
   }
 
+  //post call for add new diary
   onSubmitCreateDiary = (event) => {
     event.preventDefault()
 
@@ -78,6 +80,7 @@ class Diary extends Component {
 
   }
 
+  //get call for single diary list
   onSelectDiary = (diaryId) => {
     axios.get(host + '/diarys/' + diaryId)
       .then((response) => {
@@ -90,6 +93,7 @@ class Diary extends Component {
       });
   };
 
+  //get entries value from form
   onChangeDiaryEntry = (event) => {
     let diaryEntry = this.state.diaryEntry
     diaryEntry[event.target.name] = event.target.value
@@ -99,6 +103,7 @@ class Diary extends Component {
     })
   }
 
+//post call for add new entries
   onSubmitDiaryEntry = (event) => {
     event.preventDefault()
 
