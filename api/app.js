@@ -13,6 +13,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//Enable CORS for same origin
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept,Cache-Control,X-Requested-With");
+  res.header("Access-Control-Allow-Methods","PUT, POST, GET, DELETE, OPTIONS");
+  next();
+});
+
 mongoose.Promise = global.Promise;
 
 mongoose.connect('mongodb://localhost:27017/diary')
