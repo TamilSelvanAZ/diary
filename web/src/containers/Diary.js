@@ -7,7 +7,7 @@ import MyDiaries from '../components/MyDiaries'
 import CreateDiaries from '../components/CreateDiaries'
 import DiaryEntries from '../components/DiaryEntries'
 
-const host = 'http://localhost:3000'
+const host = 'http://localhost:5000'
 
 class Diary extends Component {
   constructor(props) {
@@ -64,9 +64,16 @@ class Diary extends Component {
     axios.post(host + '/diarys', this.state.diary)
       .then((response) => {
         this.getMyDiaries();
+
+        this.setState({
+          diary: {
+            name: '',
+            description: ''
+          }
+        })
       })
       .catch((error) => {
-
+        console.log(error)
       });
 
   }
@@ -83,7 +90,6 @@ class Diary extends Component {
       });
   };
 
-
   onChangeDiaryEntry = (event) => {
     let diaryEntry = this.state.diaryEntry
     diaryEntry[event.target.name] = event.target.value
@@ -97,9 +103,10 @@ class Diary extends Component {
     event.preventDefault()
 
     axios.post(host + '/diarys/' + this.state.selectedDiary._id, this.state.diaryEntry)
-      .then((response) => {
+      .then(response => {
         let selectedDiary = this.state.selectedDiary
         selectedDiary.entries.push({ text: this.state.diaryEntry.text})
+        
         this.setState({
           selectedDiary,
           diaryEntry: {
@@ -107,7 +114,7 @@ class Diary extends Component {
           }
         })
       })
-      .catch((error) => {
+      .catch(error => {
 
       });
   }
@@ -138,6 +145,7 @@ class Diary extends Component {
               <div style={{ marginRight: '1rem' }}>
                 <DiaryEntries
                   diary={this.state.selectedDiary}
+                  diaryEntry={this.state.diaryEntry}
                   onChangeDiaryEntry={this.onChangeDiaryEntry}
                   onSubmitDiaryEntry={this.onSubmitDiaryEntry}
                 />

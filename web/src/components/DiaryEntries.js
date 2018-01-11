@@ -22,6 +22,7 @@ const DiaryEntries = (props) => (
                             placeholder='Entry text' 
                             name='text' 
                             onChange={props.onChangeDiaryEntry}
+                            value={props.diaryEntry.text}
                             style={{width: '30rem'}}
                             required={true}
                         />
@@ -40,7 +41,7 @@ const DiaryEntries = (props) => (
                             <List.Item key={i}>
                                 <List.Content>
                                     <List.Header>{entry.text}</List.Header>
-                                    {moment(entry.created_at).format('MM-DD-YYYY hh:mm:ss A')}
+                                    <span style={{fontSize: '0.8rem'}}>{moment(entry.created_at).format('MM-DD-YYYY hh:mm a')}</span>
                                 </List.Content>
                             </List.Item>
                         ))}
