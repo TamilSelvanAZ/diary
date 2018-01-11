@@ -1,5 +1,6 @@
 import React from 'react'
-import { Form, Header, Segment, Button, List } from 'semantic-ui-react'
+import { Form, Header, Segment, List } from 'semantic-ui-react'
+import moment from 'moment';
 
 const DiaryEntries = (props) => (
     <Segment>
@@ -39,7 +40,7 @@ const DiaryEntries = (props) => (
                             <List.Item key={i}>
                                 <List.Content>
                                     <List.Header>{entry.text}</List.Header>
-                                    {entry.created_at}
+                                    {moment(entry.created_at).format('MM-DD-YYYY hh:mm:ss A')}
                                 </List.Content>
                             </List.Item>
                         ))}

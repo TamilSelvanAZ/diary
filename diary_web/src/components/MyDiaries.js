@@ -10,10 +10,11 @@ const MyDiaries = (props) => (
                 ?
             <List divided>
                 {props.myDiaries.map(diary => (
+                   
                     <List.Item key={diary._id}>
                         <List.Content>
-                            <List.Header as='a' onClick={props.onSelectDiary.bind(this, diary._id)}>Snickerdoodle</List.Header>
-                            An excellent companion
+                            <List.Header as='a' onClick={props.onSelectDiary.bind(this, diary._id)}>{diary.name}</List.Header>
+                            {diary.description}
                         </List.Content>
                     </List.Item>
                 ))}

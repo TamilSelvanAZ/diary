@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import TopHeader from '../components/TopHeader';
 import { Grid } from 'semantic-ui-react'
-import { List, Segment } from 'semantic-ui-react'
-import { Button, Form } from 'semantic-ui-react'
-import { Header } from 'semantic-ui-react'
 import axios from 'axios';
 
 import MyDiaries from '../components/MyDiaries'
 import CreateDiaries from '../components/CreateDiaries'
 import DiaryEntries from '../components/DiaryEntries'
+
+const host = 'http://localhost:3000'
 
 class Diary extends Component {
   constructor(props) {
@@ -38,12 +37,17 @@ class Diary extends Component {
   }
 
   getMyDiaries = () => {
-    // @todo GET Axios call
-    
-    this.setState({
-      myDiaries: ['one', 'two']
-    })
-  }
+    axios.get(host + '/diarys')
+      .then((response) => {
+        this.setState({
+          myDiaries: response.data
+        })
+      })
+      .catch((error) => {
+
+      });
+  };
+
 
   onChangeDiary = (event) => {
     let diary = this.state.diary
@@ -57,26 +61,28 @@ class Diary extends Component {
   onSubmitCreateDiary = (event) => {
     event.preventDefault()
 
-    console.log(this.state.diary)
+    axios.post(host + '/diarys', this.state.diary)
+      .then((response) => {
+        this.getMyDiaries();
+      })
+      .catch((error) => {
 
-    // @todo POST Axios call
-    // callback
-    this.getMyDiaries()
+      });
+
   }
 
   onSelectDiary = (diaryId) => {
-    // @todo GET Diary by ID Axios call
-    this.setState({
-      selectedDiary: {
-        _id: 'abc',
-        name: 'Selected Diary Name',
-        description: 'Selected Diary Long Very Long Description',
-        entries: [
-          { text: 'Today was a good day!', created_at: '2018' }
-        ]
-      }
-    })
-  }
+    axios.get(host + '/diarys/' + diaryId)
+      .then((response) => {
+        this.setState({
+          selectedDiary: response.data
+        })
+      })
+      .catch((error) => {
+
+      });
+  };
+
 
   onChangeDiaryEntry = (event) => {
     let diaryEntry = this.state.diaryEntry
@@ -90,10 +96,20 @@ class Diary extends Component {
   onSubmitDiaryEntry = (event) => {
     event.preventDefault()
 
-    console.log(this.state.diaryEntry)
+    axios.post(host + '/diarys/' + this.state.selectedDiary._id, this.state.diaryEntry)
+      .then((response) => {
+        let selectedDiary = this.state.selectedDiary
+        selectedDiary.entries.push({ text: this.state.diaryEntry.text})
+        this.setState({
+          selectedDiary,
+          diaryEntry: {
+            text: ''
+          }
+        })
+      })
+      .catch((error) => {
 
-    // @todo POST Axios call
-    // on callback
+      });
   }
 
   render() {
@@ -105,11 +121,11 @@ class Diary extends Component {
           <Grid.Row>
             <Grid.Column width={4}>
               <div style={{ marginLeft: '1rem' }}>
+
                 <MyDiaries
                   myDiaries={this.state.myDiaries}
                   onSelectDiary={this.onSelectDiary}
                 />
-
                 <CreateDiaries
                   diary={this.state.diary}
                   onChangeDiary={this.onChangeDiary}
